@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+OVMF_DIR="$SCRIPT_DIR/../ovmf"
+
+cd $OVMF_DIR
+OVFM_DIR=$(pwd)
+
+echo "Downloading OVMF firmware to $OVMF_DIR"
+
+rm -Rf "$OVMF_DIR/x86_64"
+mkdir "$OVMF_DIR/x86_64"
+cd "$OVMF_DIR/x86_64"
+curl -sSL -o OVMF.fd https://retrage.github.io/edk2-nightly/bin/RELEASEX64_OVMF.fd
+curl -sSL -o OVMF_CODE.fd https://retrage.github.io/edk2-nightly/bin/RELEASEX64_OVMF_CODE.fd
+curl -sSL -o OVMF_VARS.fd https://retrage.github.io/edk2-nightly/bin/RELEASEX64_OVMF_VARS.fd
+
