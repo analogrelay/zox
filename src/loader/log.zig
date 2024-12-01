@@ -28,9 +28,7 @@ const Logger = struct {
 
     fn writeFn(context: *Self, bytes: []const u8) WriteError!usize {
         if (context.console) |console| {
-            _ = std.os.uefi.system_table.con_out.?.outputString(std.unicode.utf8ToUtf16LeStringLiteral("Console"));
             try console.writeAll(bytes);
-            _ = std.os.uefi.system_table.con_out.?.outputString(std.unicode.utf8ToUtf16LeStringLiteral("ConsoleDone"));
         }
 
         if (context.serial) |serial| {

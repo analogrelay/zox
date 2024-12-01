@@ -13,36 +13,32 @@ pub const std_options = .{
     .logFn = log.logFn,
 };
 
-// fn panic(message: []const u8, _: ?*std.builtin.StackTrace, _: ?usize) noreturn {
-//     std.log.err("PANIC: {s}", .{message});
+pub fn panic(message: []const u8, _: ?*std.builtin.StackTrace, _: ?usize) noreturn {
+    std.log.err("PANIC: {s}", .{message});
 
-//     // Stall for 5 seconds.
-//     const boot_services = uefi.system_table.boot_services.?;
-//     _ = boot_services.stall(5 * 1000 * 1000);
+    // Stall for 5 seconds.
+    const boot_services = uefi.system_table.boot_services.?;
+    _ = boot_services.stall(5 * 1000 * 1000);
 
-//     // Exit
-//     boot_services.exit(uefi.handle, uefi.Status.Aborted, 0, null);
+    // Exit
+    _ = boot_services.exit(uefi.handle, uefi.Status.Aborted, 0, null);
 
-//     // Halt
-//     while (true) {}
-// }
+    // Halt
+    while (true) {}
+}
 
 pub fn main() void {
     console.init();
 
-    _ = uefi.system_table.con_out.?.outputString(std.unicode.utf8ToUtf16LeStringLiteral("Boot"));
-
-    boot();
-
-    _ = uefi.system_table.con_out.?.outputString(std.unicode.utf8ToUtf16LeStringLiteral("BootDone"));
-
-    //@panic("Yikes");
+    boot() catch |err| {
+        std.debug.panic("boot failed: {}", .{err});
+    };
 
     // Stall for 5 seconds.
     const boot_services = uefi.system_table.boot_services.?;
     _ = boot_services.stall(5 * 1000 * 1000);
 }
 
-pub fn boot() void {
+pub fn boot() !void {
     std.log.info("Zox stage 0 booting...", .{});
 }
