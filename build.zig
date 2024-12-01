@@ -10,7 +10,7 @@ pub fn build(b: *std.Build) void {
 
     const stage0 = b.addExecutable(.{
         .name = "bootx64",
-        .root_source_file = b.path("src/stage0/main.zig"),
+        .root_source_file = b.path("src/loader/stage0.uefi.zig"),
         .target = b.resolveTargetQuery(uefi_target),
         .optimize = optimize,
     });
@@ -19,7 +19,7 @@ pub fn build(b: *std.Build) void {
     stage0_step.dependOn(&stage0.step);
 
     const install_stage0 = b.addInstallArtifact(stage0, .{
-        .dest_dir = .{ .override = .{ .custom = "efi/boot" } },
+        .dest_dir = .{ .override = .{ .custom = "img/efi/boot" } },
     });
     b.getInstallStep().dependOn(&install_stage0.step);
 }

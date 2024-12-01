@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-OVMF_DIR="$SCRIPT_DIR/../ovmf"
+OVMF_DIR="$SCRIPT_DIR/../vendor/ovmf"
 
 cd $OVMF_DIR
-OVFM_DIR=$(pwd)
+OVMF_DIR=$(pwd)
 
 echo "Downloading OVMF firmware to $OVMF_DIR"
 

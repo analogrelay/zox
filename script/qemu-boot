@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR/.."
+REPO_ROOT=$(pwd)
+
+qemu-system-x86_64 -serial stdio -hdd fat:rw:$REPO_ROOT/zig-out/img -bios $REPO_ROOT/vendor/ovmf/x86_64/OVMF.fd
